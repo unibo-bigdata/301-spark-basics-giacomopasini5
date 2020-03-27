@@ -16,7 +16,7 @@ object ExampleWeather2 extends App {
     val spark = SparkSession.builder.appName("ExampleWeather Spark 2.1").getOrCreate()
 
     // Create an RDD from the files in the given folder
-    val rddWeather = spark.sparkContext.textFile("hdfs:/bigdata/dataset/weather-sample")
+    val rddWeather = spark.sparkContext.textFile("hdfs:/user/gpasini/dataset/weather-sample")
 
     //Coalesce to reduce the number of partitions(it is one per block by default, then parse records
     val rddWeatherKv = rddWeather.coalesce(12).map(x => parseWeatherLine(x))
@@ -28,7 +28,7 @@ object ExampleWeather2 extends App {
     val rddResult = rddAvgTempPerMonth.sortByKey().coalesce(1)
 
     //Save the RDD on HDFS; the directory should NOT exist
-    rddResult.saveAsTextFile("hdfs:/user/egallinucci/spark/avgTempPerMonth")
+    rddResult.saveAsTextFile("hdfs:/user/gpasini/spark/301_avgTempPerMonth/weather-sample_output")
   }
 
 }
